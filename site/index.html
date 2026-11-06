@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>RafaDesk - Suporte remoto</title>
+<link rel="icon" type="image/webp" href="/logo.webp">
+<style>
+  :root { color-scheme: dark; --bg:#0a0a0a; --card:rgba(23,23,23,.72); --fg:#f5f5f5; --muted:#a3a3a3; --line:rgba(255,255,255,.1); --btn:#e5e5e5; --btn-fg:#0a0a0a; }
+  * { box-sizing: border-box; }
+  html, body { margin:0; min-height:100%; }
+  body { min-height:100vh; display:grid; place-items:center; padding:24px 16px; background:var(--bg); color:var(--fg); font:16px/1.55 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif; }
+  .bg { position:fixed; inset:0; z-index:-1; background:var(--bg); }
+  .bg svg { position:absolute; inset:0; width:100%; height:100%; }
+  .bg::after { content:""; position:absolute; inset:0; background:radial-gradient(ellipse at center, rgba(10,10,10,.85) 0%, rgba(10,10,10,.55) 45%, transparent 85%); }
+  @keyframes circuit-pulse { 0% { stroke-dashoffset: var(--d); } 65%, 100% { stroke-dashoffset: calc(var(--l) * -1); } }
+  .circuit-pulse { animation: circuit-pulse linear infinite; }
+  @media (prefers-reduced-motion: reduce) { .circuit-pulse { opacity:0; animation:none; } }
+  main { position:relative; width:100%; max-width:480px; background:var(--card); border:1px solid var(--line); border-radius:24px; padding:32px 28px; backdrop-filter:blur(12px); -webkit-backdrop-filter:blur(12px); box-shadow:0 0 0 1px rgba(255,255,255,.02), 0 30px 80px -20px rgba(0,0,0,.8); }
+  main::before { content:""; position:absolute; inset:-1px; z-index:-1; border-radius:25px; background:linear-gradient(135deg, rgba(251,191,36,.35), rgba(239,68,68,.25), rgba(56,189,248,.35)); filter:blur(18px); opacity:.55; }
+  header { display:flex; align-items:center; gap:14px; margin:0 0 22px; }
+  header img { width:52px; height:52px; flex:none; }
+  h1 { margin:0; font-size:26px; line-height:1.1; letter-spacing:-.01em; }
+  header small { display:block; color:var(--muted); font-size:14px; }
+  h2 { margin:0 0 8px; font-size:28px; line-height:1.2; font-weight:600; letter-spacing:-.01em; }
+  .grad { background:linear-gradient(90deg,#fbbf24,#ef4444,#38bdf8); -webkit-background-clip:text; background-clip:text; color:transparent; }
+  p.sub { margin:0 0 24px; color:var(--muted); }
+  a.btn { display:flex; align-items:center; justify-content:center; gap:10px; background:var(--btn); color:var(--btn-fg); text-decoration:none; font-weight:600; font-size:17px; padding:14px 20px; border-radius:999px; transition:transform .15s, background .15s; }
+  a.btn:hover { background:#fff; transform:translateY(-1px); }
+  a.btn svg { width:18px; height:18px; }
+  .note { margin:10px 0 26px; text-align:center; color:var(--muted); font-size:13px; }
+  ol { margin:0; padding:0; list-style:none; counter-reset:s; }
+  li { counter-increment:s; position:relative; padding:0 0 12px 38px; color:#d4d4d4; }
+  li::before { content:counter(s); position:absolute; left:0; top:0; width:26px; height:26px; border-radius:50%; display:grid; place-items:center; font-size:13px; font-weight:600; background:rgba(255,255,255,.06); border:1px solid var(--line); }
+  li:nth-child(1)::before { color:#fbbf24; } li:nth-child(2)::before { color:#ef4444; } li:nth-child(3)::before { color:#38bdf8; } li:nth-child(4)::before { color:#fbbf24; }
+  li strong { color:var(--fg); }
+  .linux { margin-top:18px; padding-top:18px; border-top:1px solid var(--line); }
+  h3 { margin:0 0 2px; font-size:17px; font-weight:600; }
+  .hint { margin:0 0 12px; color:var(--muted); font-size:13px; }
+  a.btn.ghost { background:rgba(255,255,255,.06); color:var(--fg); border:1px solid var(--line); font-size:15px; padding:11px 18px; margin-bottom:14px; }
+  a.btn.ghost:hover { background:rgba(255,255,255,.12); }
+  .cmd { display:flex; align-items:center; gap:8px; background:#050505; border:1px solid var(--line); border-radius:12px; padding:10px 10px 10px 14px; }
+  .cmd code { flex:1; min-width:0; overflow-x:auto; white-space:nowrap; font:13px/1.5 ui-monospace,SFMono-Regular,Consolas,monospace; color:#e5e5e5; scrollbar-width:thin; }
+  .cmd button { flex:none; background:var(--btn); color:var(--btn-fg); border:0; border-radius:8px; padding:6px 12px; font:600 13px system-ui,sans-serif; cursor:pointer; }
+  .cmd button:hover { background:#fff; }
+  footer { margin-top:18px; padding-top:16px; border-top:1px solid var(--line); color:var(--muted); font-size:13px; display:flex; justify-content:space-between; gap:12px; flex-wrap:wrap; }
+  footer a { color:var(--muted); }
+</style>
+</head>
+<body>
+<div class="bg" aria-hidden="true"><svg id="circuit" viewBox="0 0 1440 900" preserveAspectRatio="xMidYMid slice"></svg></div>
+<main>
+  <header>
+    <img src="/logo.webp" alt="" width="52" height="52">
+    <div><h1>RafaDesk</h1><small>Rafa Consultoria em TI</small></div>
+  </header>
+  <h2>Suporte <span class="grad">remoto</span></h2>
+  <p class="sub">Baixe, abra e passe o ID e a senha para o técnico.</p>
+  <a class="btn" href="/RafaDesk.exe"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12"/><path d="m7 10 5 5 5-5"/><path d="M5 21h14"/></svg>Baixar para Windows</a>
+  <p class="note">Não precisa instalar para receber suporte.</p>
+  <ol>
+    <li>Clique em <strong>Baixar para Windows</strong>.</li>
+    <li>Abra o arquivo baixado. Se o Windows avisar, clique em <strong>Mais informações → Executar assim mesmo</strong>.</li>
+    <li>Informe ao técnico o <strong>ID</strong> e a <strong>senha</strong> que aparecem na tela.</li>
+    <li>Quando ele conectar, clique em <strong>Aceitar</strong>.</li>
+  </ol>
+  <section class="linux">
+    <h3>Linux</h3>
+    <p class="hint">Ubuntu, Debian, Mint e derivados (64 bits).</p>
+    <a class="btn ghost" href="/RafaDesk.deb"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12"/><path d="m7 10 5 5 5-5"/><path d="M5 21h14"/></svg>Baixar para Linux (.deb)</a>
+    <p class="hint">Ou instale pelo terminal:</p>
+    <div class="cmd"><code id="cmd">curl -fsSL https://acesso.rafaelmarcolino.online/install.sh | sudo bash</code><button type="button" id="copy" aria-label="Copiar comando">Copiar</button></div>
+  </section>
+  <footer><span>Rafa Consultoria em TI</span><a href="https://rafaelmarcolino.online">rafaelmarcolino.online</a></footer>
+</main>
+<script>
+(function () {
+  var b = document.getElementById("copy"), c = document.getElementById("cmd");
+  b.addEventListener("click", function () {
+    var done = function () { b.textContent = "Copiado!"; setTimeout(function () { b.textContent = "Copiar"; }, 2000); };
+    if (navigator.clipboard) navigator.clipboard.writeText(c.textContent).then(done, function () {});
+    else { var r = document.createRange(); r.selectNodeContents(c); var s = getSelection(); s.removeAllRanges(); s.addRange(r); document.execCommand("copy"); done(); }
+  });
+})();
+(function () {
+  var P = "1400,840,800,840|320,600,360,600,440,680,440,760,480,800,480,840|640,440,840,440,880,400,880,120|1200,240,1360,240|1160,320,960,320,920,360|1160,480,1120,440,1120,400,1080,360|1320,280,920,280|40,120,40,40,80,0|440,440,400,480,280,480,200,560,200,600,160,640,0,640|1240,360,1200,400,1200,520,1240,560,1240,800|1400,360,1360,400,1320,400,1240,480|400,200,400,0|800,0,760,40,720,40,680,80,680,200|520,360,680,360,720,320,840,320|600,400,360,400,240,280,200,280|1000,600,1000,440|1120,0,1200,0,1240,40,1240,120|200,80,360,80|1320,80,1440,80|720,560,880,560|480,360,440,320,440,160,480,120,640,120|720,840,680,880,360,880|200,640,240,640,280,680,280,760,240,800,240,880|480,160,520,160,640,280,640,320|1000,200,1160,200,1200,160,1320,160,1360,120|1280,120,1280,0|600,760,600,680,640,640,640,480|360,120,80,120|560,440,320,680|320,0,120,0,80,40|280,520,240,480,200,480,160,440,160,400|960,680,920,720,920,800|480,560,480,760|80,200,200,200,240,160|160,280,160,360,200,400,320,400|1280,720,1440,720|1160,520,1040,520|680,760,680,720,720,680,880,680|1120,120,1040,120,1000,80,760,80,720,120|1120,640,920,640|1400,560,1280,560|560,840,560,600,520,560|680,400,840,400|1440,320,1440,200|80,720,240,720|0,400,0,560|1440,0,1360,0,1320,40|320,240,0,240|880,40,1000,40,1040,0,1080,0|480,0,600,0,640,40|0,200,0,0|320,560,240,560,200,520,40,520|760,760,840,760,880,720|280,280,360,280,400,240|1280,520,1440,520|600,440,600,520,560,560|1200,40,1040,40|1240,320,1320,320,1360,280|1400,320,1400,120|160,880,160,760|40,680,240,680|720,360,840,360|40,600,80,560,120,560,160,600|1200,640,1200,760|800,160,800,280|440,0,440,120|40,480,40,360,0,320|320,640,360,680,360,840|880,440,880,480,840,520,680,520|600,800,760,800|0,840,0,760,40,720|280,440,200,440,160,480|1160,600,1040,600|960,720,960,760,1000,800,1120,800|1280,480,1320,480,1360,440,1440,440|320,720,320,880|800,640,680,640|960,160,1160,160|1080,680,1080,720,1120,760,1160,760|720,280,720,240,760,200,760,120,720,80";
+  var Q = "2,fbbf24,6.14,-0.46|4,ef4444,9.28,-6.42|9,38bdf8,9.26,-7.36|11,38bdf8,9.27,-1.11|12,fbbf24,8.48,-7.18|13,38bdf8,9.42,-2.15|15,ef4444,9.42,-2.20|21,fbbf24,4.43,-2.92|22,fbbf24,8.39,-1.23|24,ef4444,9.03,-8.94|25,38bdf8,5.97,-0.03|28,38bdf8,9.28,-6.91|31,fbbf24,8.43,-4.38|33,38bdf8,6.88,-5.91|34,38bdf8,5.20,-1.29|35,38bdf8,9.71,-2.49|37,ef4444,8.80,-7.95|39,fbbf24,9.81,-6.51|40,fbbf24,5.24,-4.16|41,ef4444,6.23,-6.22|43,ef4444,4.73,-1.93|46,fbbf24,4.36,-2.92|47,38bdf8,4.66,-1.31|48,fbbf24,7.10,-3.39|51,ef4444,8.85,-6.66|53,ef4444,7.77,-0.94|57,38bdf8,9.26,-0.08|58,ef4444,8.45,-0.03|59,fbbf24,5.87,-5.78|61,38bdf8,4.98,-1.62|62,ef4444,6.57,-2.08|65,ef4444,8.05,-7.36|68,38bdf8,6.84,-3.46|71,ef4444,6.53,-6.14|73,ef4444,5.53,-1.30|74,38bdf8,7.12,-0.99";
+  var NS = "http://www.w3.org/2000/svg", svg = document.getElementById("circuit");
+  function el(tag, attrs, parent) { var e = document.createElementNS(NS, tag); for (var k in attrs) e.setAttribute(k, attrs[k]); parent.appendChild(e); return e; }
+  var gl = el("g", { fill: "none", stroke: "rgba(255,255,255,0.08)", "stroke-width": "1.5", "stroke-linecap": "round", "stroke-linejoin": "round" }, svg);
+  var gc = el("g", { fill: "#0a0a0a", stroke: "rgba(255,255,255,0.16)", "stroke-width": "1.5" }, svg);
+  var gp = el("g", { fill: "none", "stroke-linecap": "round", "stroke-linejoin": "round" }, svg);
+  var paths = P.split("|").map(function (s) {
+    var n = s.split(",").map(Number), d = "";
+    for (var i = 0; i < n.length; i += 2) d += (i ? " L" : "M") + n[i] + " " + n[i + 1];
+    el("path", { d: d }, gl);
+    el("circle", { cx: n[0], cy: n[1], r: "3.5" }, gc);
+    el("circle", { cx: n[n.length - 2], cy: n[n.length - 1], r: "3.5" }, gc);
+    return d;
+  });
+  Q.split("|").forEach(function (s) {
+    var f = s.split(","), d = paths[+f[0]];
+    var probe = el("path", { d: d }, gp), len = Math.round(probe.getTotalLength()); gp.removeChild(probe);
+    var style = "--d:60px;--l:" + len + "px;animation-duration:" + f[2] + "s;animation-delay:" + f[3] + "s";
+    el("path", { d: d, "class": "circuit-pulse", stroke: "#" + f[1], "stroke-width": "6", "stroke-opacity": "0.25", "stroke-dasharray": "60 " + len, style: style }, gp);
+    el("path", { d: d, "class": "circuit-pulse", stroke: "#" + f[1], "stroke-width": "2", "stroke-dasharray": "60 " + len, style: style }, gp);
+  });
+})();
+</script>
+</body>
+</html>

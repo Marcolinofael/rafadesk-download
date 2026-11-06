@@ -1,0 +1,19 @@
+services:
+  fetch:
+    image: curlimages/curl:8.10.1
+    user: "0:0"
+    command: ["sh", "/app/fetch.sh"]
+    volumes:
+      - ../files/download:/data
+      - ./fetch.sh:/app/fetch.sh:ro
+      - ./downloads.txt:/app/downloads.txt:ro
+    restart: "no"
+
+  web:
+    build: .
+    depends_on:
+      fetch:
+        condition: service_completed_successfully
+    volumes:
+      - ../files/download:/data:ro
+    restart: unless-stopped

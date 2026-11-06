@@ -1,0 +1,3 @@
+# arquivo                     sha256                                                            obrigatorio
+RafaDesk-1.5.1.exe            24dd149d5bf0597b728e1746b29587228d78253e2942bf89c08c0530fd48ec97  sim
+RafaDesk-1.5.1-x86_64.deb     0000000000000000000000000000000000000000000000000000000000000000  nao
