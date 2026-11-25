@@ -1,4 +1,4 @@
 # arquivo                     sha256                                                            obrigatorio
-RafaDesk-1.5.1.exe            24dd149d5bf0597b728e1746b29587228d78253e2942bf89c08c0530fd48ec97  sim
-RafaDesk-1.5.1-x86_64.deb     0bd6011b6e2c1d1152762863b742e4a153db704124a84995771d43ca4087f7cc  sim
-RafaDesk-1.5.1.apk            b22f6d2cd6652386d1192199f0fd830eb099631cc022588c42d26861994440ef  sim
+RafaDesk-1.5.1.exe            10d1dfe2209f53c6bdf72618f79c67376271eb2d53f40804b1b5c4c95eca0380  sim
+RafaDesk-1.5.1-x86_64.deb     0b7c7ff2f2dfdafc97a2d77a7b2624bb658cc33fd988151d856da72b643c79f8  sim
+RafaDesk-1.5.1.apk            cb8ad863e674b8c6da4c7e3320aba8e475ca39d41dd861b1ab81128bdc0b9fd5  sim
